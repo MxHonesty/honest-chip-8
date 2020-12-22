@@ -5,25 +5,27 @@
 #ifndef SRC_HARDWARE_EMULATOR_H
 #define SRC_HARDWARE_EMULATOR_H
 
-#include <vector>
 #include "chip_types.h"
 
 class Hardware {
-public:
-    // TODO: membrii privati cu getteri. game_memory este folosit in test_hardware_emulator.cpp
     BYTE game_memory[0xFFF];  // 0xFFF bytes of memory.
     BYTE registers[16];  // 16 registers, 1 byte each.
     WORD address_i;  // the 16-bit address register I.
     WORD program_counter;  // 16-bit program counter.
-    BYTE screen_data[64][32];  // 64x32 resolution.
     std::vector<WORD> stack;  // 16-bit stack.
+public:
+    BYTE screen_data[64][32];  // 64x32 resolution.
 
     void cpu_reset();  // Reset the cpu.
     void load_game_into_memory(const char *filename);  // Load game file into memory.
 
+    // Getters
 
-
-
+    BYTE* get_game_memory();  // Returns pointer to first element of game_memory.
+    BYTE* get_registers(); // Returns pointer to first element of registers.
+    WORD get_address_i() const;  // Returns the value of the address register.
+    WORD get_program_counter() const;  // Returns the value of the program counter.
+    BYTE** get_screen_data();  // Returns pointer to screen_data matrix.
 };
 
 

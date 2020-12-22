@@ -4,6 +4,7 @@
 
 #ifndef SRC_CHIP_TYPES_H
 #define SRC_CHIP_TYPES_H
+#include <vector>
 
 typedef unsigned char BYTE;  // BYTE data type. Unsigned representation.
 typedef unsigned short WORD;  // WORD data type. Unsigned representation.

@@ -20,3 +20,19 @@ void Hardware::load_game_into_memory(const char* filename) {
     fread(&game_memory[0x200], 0xfff, 1, in);
     fclose(in);
 }
+
+BYTE *Hardware::get_game_memory() {
+    return this->game_memory;
+}
+
+BYTE *Hardware::get_registers() {
+    return this->registers;
+}
+
+WORD Hardware::get_address_i() const {
+    return this->address_i;
+}
+
+WORD Hardware::get_program_counter() const {
+    return this->program_counter;
+}

@@ -9,8 +9,8 @@
  void TestHardwareEmulator::test_load_game_into_memory(){
     auto *he = new Hardware;
     he->load_game_into_memory(R"(D:\Projects\C++\honest-chip-8\roms\test.txt)");
-    assert(he->game_memory[0x200] == 49);  // 49 Ascii = 1 character
-    assert(he->game_memory[0x201] == 49);
+    assert(he->get_game_memory()[0x200] == 49);  // 49 Ascii = 1 character
+    assert(he->get_game_memory()[0x201] == 49);
     delete he;
 }
 
