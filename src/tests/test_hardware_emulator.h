@@ -8,6 +8,7 @@
 
 class TestHardwareEmulator{
     static void test_load_game_into_memory();  // Tests the load_game_into_memory method.
+    static void test_getters_setters();  // Tests the Hardware getters.
 public:
     static void run_all_tests();  // Runs all the tests.
 };

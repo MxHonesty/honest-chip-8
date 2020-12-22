@@ -13,11 +13,14 @@ class Hardware {
     WORD address_i;  // the 16-bit address register I.
     WORD program_counter;  // 16-bit program counter.
     std::vector<WORD> stack;  // 16-bit stack.
+
+    WORD get_next_opcode();  // Returns the next opcode value;
 public:
     BYTE screen_data[64][32];  // 64x32 resolution.
 
     void cpu_reset();  // Reset the cpu.
     void load_game_into_memory(const char *filename);  // Load game file into memory.
+
 
     // Getters
 
@@ -25,7 +28,11 @@ public:
     BYTE* get_registers(); // Returns pointer to first element of registers.
     WORD get_address_i() const;  // Returns the value of the address register.
     WORD get_program_counter() const;  // Returns the value of the program counter.
-    BYTE** get_screen_data();  // Returns pointer to screen_data matrix.
+
+    // Setters
+
+    void set_address_i(WORD new_value);  // Sets the value of the address register.
+    void set_program_counter(WORD new_value);  // Sets the value of the program counter.
 };
 
 

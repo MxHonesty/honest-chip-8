@@ -14,6 +14,18 @@
     delete he;
 }
 
+void TestHardwareEmulator::test_getters_setters() {
+    auto *he = new Hardware;
+    he->set_address_i(0xFFFF);
+    assert(he->get_address_i() == 0xFFFF && "Address_I value incorrect.");
+    he->set_program_counter(0x1010);
+    assert(he->get_program_counter() == 0x1010 && "Program counter value incorrect.");
+    he->get_registers()[1] = 10;
+    assert(he->get_registers()[1] == 10 && "Register value incorrect.");
+    delete he;
+}
+
 void TestHardwareEmulator::run_all_tests() {
     test_load_game_into_memory();
+    test_getters_setters();
 }

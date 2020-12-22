@@ -36,3 +36,19 @@ WORD Hardware::get_address_i() const {
 WORD Hardware::get_program_counter() const {
     return this->program_counter;
 }
+
+void Hardware::set_address_i(WORD new_value) {
+    this->address_i = new_value;
+}
+
+void Hardware::set_program_counter(WORD new_value) {
+    this->program_counter = new_value;
+}
+
+WORD Hardware::get_next_opcode() {
+    WORD res = game_memory[program_counter];
+    res <<= 8;  // We shift the high part of the word to the left.
+    res |= game_memory[program_counter + 1];  // Append the low part of the word.
+    program_counter += 2;
+    return res;
+}
