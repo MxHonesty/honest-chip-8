@@ -22,6 +22,12 @@ void TestHardwareEmulator::test_getters_setters() {
     assert(he->get_program_counter() == 0x1010 && "Program counter value incorrect.");
     he->get_registers()[1] = 10;
     assert(he->get_registers()[1] == 10 && "Register value incorrect.");
+    he->set_register(0, 11);
+    assert(he->get_register(0) == 11);
+    he->set_memory(1, 0xA);
+    he->set_memory(2, 0xB);
+    assert(he->get_memory(1) == 0xA);
+    assert(he->get_memory(2) == 0xB);
     delete he;
 }
 

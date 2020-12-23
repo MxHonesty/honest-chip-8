@@ -52,3 +52,20 @@ WORD Hardware::get_next_opcode() {
     program_counter += 2;
     return res;
 }
+
+BYTE Hardware::get_register(int pos) {
+    return registers[pos];
+}
+
+void Hardware::set_register(int pos, BYTE value) {
+    if(pos < 16 && pos >= 0)
+        registers[pos] = value;
+}
+
+BYTE Hardware::get_memory(int pos) {
+    return game_memory[pos];
+}
+
+void Hardware::set_memory(int pos, BYTE value) {
+    game_memory[pos] = value;
+}
