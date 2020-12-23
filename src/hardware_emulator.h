@@ -12,10 +12,10 @@ class Hardware {
     BYTE registers[16];  // 16 registers, 1 byte each.
     WORD address_i;  // the 16-bit address register I.
     WORD program_counter;  // 16-bit program counter.
-    std::vector<WORD> stack;  // 16-bit stack.
 
     WORD get_next_opcode();  // Returns the next opcode value;
 public:
+    std::vector<WORD> stack;  // 16-bit stack.
     BYTE screen_data[64][32];  // 64x32 resolution.
 
     void cpu_reset();  // Reset the cpu.
