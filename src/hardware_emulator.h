@@ -26,15 +26,14 @@ public:
 
     BYTE* get_game_memory();  // Returns pointer to first element of game_memory.
     BYTE get_memory(int pos);  // Returns BYTE pos from memory.
-    void set_memory(int pos, BYTE value);  // Set the pos BYTE in memory to value.
     BYTE* get_registers(); // Returns pointer to first element of registers.
     BYTE get_register(int pos);  // Get the value of the pos register.
-    void set_register(int pos, BYTE value);  // Set the value of the pos register at value.
     WORD get_address_i() const;  // Returns the value of the address register.
     WORD get_program_counter() const;  // Returns the value of the program counter.
 
     // Setters
-
+    void set_memory(int pos, BYTE value);  // Set the pos BYTE in memory to value.
+    void set_register(int pos, BYTE value);  // Set the value of the pos register at value.
     void set_address_i(WORD new_value);  // Sets the value of the address register.
     void set_program_counter(WORD new_value);  // Sets the value of the program counter.
 };

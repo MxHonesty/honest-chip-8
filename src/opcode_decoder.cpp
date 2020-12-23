@@ -19,6 +19,18 @@ void opcode_decoder::decode_opcode(WORD opcode) {
     }
 }
 
+int opcode_decoder::get_x(WORD opcode) {
+    int reg_x = opcode & 0x0F00;
+    reg_x >>= 8;
+    return reg_x;
+}
+
+int opcode_decoder::get_y(WORD opcode) {
+    int reg_y = opcode & 0x00F0;
+    reg_y >>= 4;
+    return reg_y;
+}
+
 void opcode_decoder::Opcode1NNN(WORD opcode) {
     hardware->set_program_counter(opcode & 0x0FFF);
 }
@@ -41,21 +53,17 @@ void opcode_decoder::Opcode2NNN(WORD opcode) {
 }
 
 void opcode_decoder::Opcode5XY0(WORD opcode) {
-    int reg_x = opcode & 0x0F00;
-    reg_x = reg_x >> 8;
-    int reg_y = opcode & 0x00F0;
-    reg_y = reg_y >> 4;  // Overlapping reg_x and reg_y.
+    int reg_x = get_x(opcode);
+    int reg_y = get_y(opcode);
 
     if(hardware->get_register(reg_x) == hardware->get_register(reg_y))
         hardware->set_program_counter(hardware->get_program_counter() + 2);
 }
 
 void opcode_decoder::Opcode8XY5(WORD opcode) {
-    hardware->get_registers()[0xF] = 1;
-    int reg_x = opcode & 0x0F00;
-    reg_x = reg_x >> 8;
-    int reg_y = opcode & 0x00F0;
-    reg_y = reg_y >> 4;
+    hardware->set_register(0xF, 1);
+    int reg_x = get_x(opcode);
+    int reg_y = get_y(opcode);
 
     BYTE x_value = hardware->get_register(reg_x);
     BYTE y_value = hardware->get_register(reg_y);
@@ -65,10 +73,8 @@ void opcode_decoder::Opcode8XY5(WORD opcode) {
 }
 
 void opcode_decoder::OpcodeDXYN(WORD opcode) {
-    int reg_x = opcode & 0x0F00;
-    reg_x = reg_x >> 8;
-    int reg_y = opcode & 0x00F0;
-    reg_y = reg_y >> 4;
+    int reg_x = get_x(opcode);
+    int reg_y = get_y(opcode);
 
     int height = opcode & 0x000F;
     int x_position = hardware->get_register(reg_x);
@@ -94,8 +100,7 @@ void opcode_decoder::OpcodeDXYN(WORD opcode) {
 }
 
 void opcode_decoder::OpcodeFX33(WORD opcode) {
-    int reg_x = opcode & 0x0F00;
-    reg_x >>= 8;
+    int reg_x = get_x(opcode);
     int value = hardware->get_register(reg_x);
 
     BYTE hundreds = value / 100;
@@ -109,8 +114,7 @@ void opcode_decoder::OpcodeFX33(WORD opcode) {
 }
 
 void opcode_decoder::OpcodeFX55(WORD opcode) {
-    int reg_x = opcode & 0x0F00;
-    reg_x >>= 8;
+    int reg_x = get_x(opcode);
     WORD i_address = hardware->get_address_i();
     for(int i = 0; i <= reg_x; i++)
         hardware->set_memory(i_address + i, hardware->get_register(i));
@@ -130,8 +134,7 @@ void opcode_decoder::OpcodeBNNN(WORD opcode) {
 
 void opcode_decoder::Opcode3XNN(WORD opcode) {
     WORD value = opcode & 0x00FF;
-    int reg_x = opcode & 0x0F00;
-    reg_x >>= 8;
+    int reg_x = get_x(opcode);
     WORD current_position = hardware->get_program_counter();
     if(value == hardware->get_register(reg_x))
         hardware->set_program_counter(current_position + 2);
@@ -139,8 +142,7 @@ void opcode_decoder::Opcode3XNN(WORD opcode) {
 
 void opcode_decoder::Opcode4XNN(WORD opcode) {
     WORD value = opcode & 0x00FF;
-    int reg_x = opcode & 0x0F00;
-    reg_x >>= 8;
+    int reg_x = get_x(opcode);
     WORD current_position = hardware->get_program_counter();
     if(value == hardware->get_register(reg_x))
         hardware->set_program_counter(current_position + 2);
@@ -148,16 +150,59 @@ void opcode_decoder::Opcode4XNN(WORD opcode) {
 
 void opcode_decoder::Opcode6XNN(WORD opcode) {
     BYTE value = opcode & 0x00FF;
-    int reg_x = opcode & 0x0F00;
-    reg_x >>= 8;
+    int reg_x = get_x(opcode);
     hardware->set_register(reg_x, value);
 }
 
 void opcode_decoder::Opcode7XNN(WORD opcode) {
     WORD value = opcode & 0x00FF;
-    int reg_x = opcode & 0x0F00;
-    reg_x >>= 8;
+    int reg_x = get_x(opcode);
     WORD value_from_reg = hardware->get_register(reg_x);
     WORD new_value = value_from_reg + value;
+    hardware->set_register(reg_x, new_value);
+}
+
+void opcode_decoder::Opcode8XY0(WORD opcode) {
+    int reg_x = get_x(opcode);
+    int reg_y = get_y(opcode);
+    hardware->set_register(reg_x, hardware->get_register(reg_y));
+}
+
+void opcode_decoder::Opcode8XY1(WORD opcode) {
+    int reg_x = get_x(opcode);
+    int reg_y = get_y(opcode);
+    BYTE x_value = hardware->get_register(reg_x);
+    BYTE y_value = hardware->get_register(reg_y);
+    hardware->set_register(reg_x, x_value | y_value);
+}
+
+void opcode_decoder::Opcode8XY2(WORD opcode) {
+    int reg_x = get_x(opcode);
+    int reg_y = get_y(opcode);
+    BYTE x_value = hardware->get_register(reg_x);
+    BYTE y_value = hardware->get_register(reg_y);
+    hardware->set_register(reg_x, x_value & y_value);
+
+}
+
+void opcode_decoder::Opcode8XY3(WORD opcode) {
+    int reg_x = get_x(opcode);
+    int reg_y = get_y(opcode);
+    BYTE x_value = hardware->get_register(reg_x);
+    BYTE y_value = hardware->get_register(reg_y);
+    hardware->set_register(reg_x, x_value ^ y_value);
+
+}
+
+void opcode_decoder::Opcode8XY4(WORD opcode) {
+    int reg_x = get_x(opcode);
+    int reg_y = get_y(opcode);
+    BYTE x_value = hardware->get_register(reg_x);
+    BYTE y_value = hardware->get_register(reg_y);
+
+    hardware->set_register(0xF, 0);
+    if(x_value + y_value > 255)  // If they add up higher than 8-bit int limit.
+        hardware->set_register(0xF, 1);
+    BYTE new_value = x_value + y_value;
     hardware->set_register(reg_x, new_value);
 }
