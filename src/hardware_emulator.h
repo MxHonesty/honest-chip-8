@@ -14,6 +14,7 @@ class Hardware {
     WORD program_counter;  // 16-bit program counter.
 
     WORD get_next_opcode();  // Returns the next opcode value;
+    void init_font_data();  // Initializes font data.
 public:
     std::vector<WORD> stack;  // 16-bit stack.
     BYTE screen_data[64][32];  // 64x32 resolution.

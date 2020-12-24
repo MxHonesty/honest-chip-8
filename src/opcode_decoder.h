@@ -45,10 +45,16 @@ class opcode_decoder {
     void OpcodeDXYN(WORD opcode);  // Draws a sprite as X,Y Coords. 8px wide and N px tall.
     void OpcodeEX9E(WORD opcode);  // Skips the next instruction if the key in VX is pressed.
     void OpcodeEXA1(WORD opcode);  // Skips the next instruction if the key in VX in NOT pressed.
-
-
+    void OpcodeFX07(WORD opcode);  // Sets VX to the value of the delay timer.
+    void OpcodeFX0A(WORD opcode);  // Awaits a key press and stores it in VX. Blocking operation.
+    void OpcodeFX15(WORD opcode);  // Sets delay timer to VX.
+    void OpcodeFX18(WORD opcode);  // Sets sound timer to VX.
+    void OpcodeFX1E(WORD opcode);  // Adds VX to I. Does not affect carry.
+    void OpcodeFX29(WORD opcode);  // Sets I to the location of the sprite for the character in VX.
     void OpcodeFX33(WORD opcode);  // Stores each digit of the value in reg_x.
     void OpcodeFX55(WORD opcode);  // Stores registers in memory at address I.
+    // Fills V0 to VX with values from memory at addres I. I is increased by 1 for each val.
+    void OpcodeFX65(WORD opcode);
 
 public:
     explicit opcode_decoder(Hardware he);  // Constructor.

@@ -114,14 +114,6 @@ void opcode_decoder::OpcodeFX33(WORD opcode) {
     hardware->set_memory(i_address+2, units);
 }
 
-void opcode_decoder::OpcodeFX55(WORD opcode) {
-    int reg_x = get_x(opcode);
-    WORD i_address = hardware->get_address_i();
-    for(int i = 0; i <= reg_x; i++)
-        hardware->set_memory(i_address + i, hardware->get_register(i));
-    hardware->set_address_i(i_address + reg_x + 1);
-}
-
 void opcode_decoder::OpcodeANNN(WORD opcode) {
     WORD new_address = opcode & 0x0FFF;
     hardware->set_address_i(new_address);
@@ -254,5 +246,37 @@ void opcode_decoder::OpcodeCXNN(WORD opcode) {
     BYTE value = opcode & 0x00FF;
     BYTE random_value = rand()%256;
     hardware->set_register(reg_x, random_value & value);
+}
+
+void opcode_decoder::OpcodeFX1E(WORD opcode) {
+    int reg_x = get_x(opcode);
+    BYTE x_value = hardware->get_register(reg_x);
+    WORD i_value = hardware->get_address_i();
+    i_value += x_value;
+    hardware->set_address_i(i_value);
+}
+
+void opcode_decoder::OpcodeFX29(WORD opcode) {
+    int reg_x = get_x(opcode); // Font values start at 0. Each character is 5 bytes long.
+    WORD position = hardware->get_register(reg_x);
+    position *= 5;
+    hardware->set_address_i(position);
+}
+
+void opcode_decoder::OpcodeFX55(WORD opcode) {
+    int reg_x = get_x(opcode);
+    WORD i_address = hardware->get_address_i();
+    for(int i = 0; i <= reg_x; i++)
+        hardware->set_memory(i_address + i, hardware->get_register(i));
+    hardware->set_address_i(i_address + reg_x + 1);
+}
+
+void opcode_decoder::OpcodeFX65(WORD opcode) {
+    int reg_x = get_x(opcode);
+    WORD i_address = hardware->get_address_i();
+    for(int i = 0; i <= reg_x; i++)
+        hardware->set_register(i, hardware->get_memory(i_address + i));
+    hardware->set_address_i(i_address + reg_x + 1);
+
 }
 
