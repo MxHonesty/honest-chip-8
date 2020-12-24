@@ -37,11 +37,13 @@ void opcode_decoder::Opcode1NNN(WORD opcode) {
 }
 
 void opcode_decoder::Opcode00E0(WORD opcode) {
-
+    // TODO public set screen_data to 0 method for hardware.
 }
 
 void opcode_decoder::Opcode00EE(WORD opcode) {
-
+    WORD jump_address = hardware->stack.back();
+    hardware->set_program_counter(jump_address);
+    hardware->stack.pop_back();
 }
 
 opcode_decoder::opcode_decoder(Hardware he) {
