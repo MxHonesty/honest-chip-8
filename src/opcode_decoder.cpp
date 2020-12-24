@@ -2,6 +2,7 @@
 // Created by Stelian Stoian on 22/12/2020.
 //
 
+#include <cstdlib>  // Used rand() method.
 #include "opcode_decoder.h"
 
 
@@ -206,3 +207,52 @@ void opcode_decoder::Opcode8XY4(WORD opcode) {
     BYTE new_value = x_value + y_value;
     hardware->set_register(reg_x, new_value);
 }
+
+void opcode_decoder::Opcode8XY6(WORD opcode) {
+    int reg_x = get_x(opcode);
+    BYTE x_value = hardware->get_register(reg_x);
+    hardware->set_register(0xF, x_value & 0x01);
+    x_value >>= 1;
+    hardware->set_register(reg_x, x_value);
+}
+
+void opcode_decoder::Opcode8XY7(WORD opcode) {
+    int reg_x = get_x(opcode);
+    int reg_y = get_y(opcode);
+    BYTE x_value = hardware->get_register(reg_x);
+    BYTE y_value = hardware->get_register(reg_y);
+
+    hardware->set_register(0xF, 0);
+    if(x_value > y_value)
+        hardware->set_register(0xF, 1);
+
+    BYTE new_value = y_value - x_value;
+    hardware->set_register(reg_x, new_value);
+}
+
+void opcode_decoder::Opcode8XYE(WORD opcode) {
+    int reg_x = get_x(opcode);
+    BYTE x_value = hardware->get_register(reg_x);
+    hardware->set_register(0xF, x_value & 0x80);
+    x_value <<= 1;
+    hardware->set_register(reg_x, x_value);
+}
+
+void opcode_decoder::Opcode9XY0(WORD opcode) {
+    int reg_x = get_x(opcode);
+    int reg_y = get_y(opcode);
+    BYTE x_value = hardware->get_register(reg_x);
+    BYTE y_value = hardware->get_register(reg_y);
+
+    WORD current_position = hardware->get_program_counter();
+    if(x_value != y_value)
+        hardware->set_program_counter(current_position + 2);
+}
+
+void opcode_decoder::OpcodeCXNN(WORD opcode) {
+    int reg_x = get_x(opcode);
+    BYTE value = opcode & 0x00FF;
+    BYTE random_value = rand()%256;
+    hardware->set_register(reg_x, random_value & value);
+}
+
