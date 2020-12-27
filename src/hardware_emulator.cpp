@@ -184,3 +184,7 @@ void Hardware::init_font_data() {
     game_memory[78] = 0x80;
     game_memory[79] = 0x80;
 }
+
+bool Hardware::is_key_pressed(BYTE pos) {
+    return keys[pos] == 1;
+}

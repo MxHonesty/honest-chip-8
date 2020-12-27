@@ -282,3 +282,32 @@ void opcode_decoder::OpcodeFX65(WORD opcode) {
 
 }
 
+void opcode_decoder::OpcodeEX9E(WORD opcode) {
+    int reg_x = get_x(opcode);
+    BYTE x_value = hardware->get_register(reg_x);
+    WORD current_position = hardware->get_program_counter();
+    if(hardware->is_key_pressed(x_value))
+        hardware->set_program_counter(current_position + 2);
+}
+
+void opcode_decoder::OpcodeEXA1(WORD opcode) {
+    int reg_x = get_x(opcode);
+    BYTE x_value = hardware->get_register(reg_x);
+    WORD current_position = hardware->get_program_counter();
+    if(not hardware->is_key_pressed(x_value))
+        hardware->set_program_counter(current_position + 2);
+}
+
+void opcode_decoder::OpcodeFX0A(WORD opcode) {
+    int reg_x = get_x(opcode);
+    bool key_pressed = false;
+    while(not key_pressed){
+        for(int i = 0; i < 16; i++)  // Loop through all the keys and check if pressed.
+            if(hardware->is_key_pressed(i)) {
+                hardware->set_register(reg_x, i);
+                key_pressed = true;
+            }
+    }
+
+}
+

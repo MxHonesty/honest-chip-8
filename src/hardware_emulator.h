@@ -25,7 +25,7 @@ public:
 
 
     // Getters
-
+    bool is_key_pressed(BYTE pos);  // Returns true if the key with pos position is pressed.
     BYTE* get_game_memory();  // Returns pointer to first element of game_memory.
     BYTE get_memory(int pos);  // Returns BYTE pos from memory.
     BYTE* get_registers(); // Returns pointer to first element of registers.
