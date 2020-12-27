@@ -18,6 +18,7 @@ class Hardware {
 public:
     std::vector<WORD> stack;  // 16-bit stack.
     BYTE screen_data[64][32];  // 64x32 resolution.
+    BYTE keys[16] = {0};  // 1 - pressed, 2 - not pressed.
 
     void cpu_reset();  // Reset the cpu.
     void load_game_into_memory(const char *filename);  // Load game file into memory.

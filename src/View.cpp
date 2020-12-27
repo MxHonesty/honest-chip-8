@@ -4,6 +4,7 @@
 
 #include "View.h"
 
-View::View(Hardware he) {
-    hardware = &he;
+View::View(BYTE *screen[], BYTE *keys) {
+    screen_data = screen;
+    keys_data = keys;
 }
