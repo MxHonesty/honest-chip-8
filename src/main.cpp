@@ -1,33 +1,23 @@
 #include "tests/test_hardware_emulator.h"
-#include "SDL.h"
-#include <iostream>
+#include "View.h"
 
 int main(int argc, char *argv[]) {
     // Run tests.
     TestHardwareEmulator::run_all_tests();
 
-    const int SCREEN_WIDTH = 640;
-    const int SCREEN_HEIGHT = 480;
+    BYTE test_keys[16] = {0};
 
-    SDL_Window *window = nullptr;
-    SDL_Surface *screenSurface = nullptr;
+    BYTE test_screen_data[64][32] = {0};
+    for(int i = 0; i < 64; i++)
+        for(int j = 0; j < 32; j++)
+            test_screen_data[i][j] = 1;
 
-    if(SDL_Init(SDL_INIT_VIDEO) < 0)
-        std::cout<<"SDL coult not initialize!";
-    else{  // SDL init
-        window = SDL_CreateWindow("SDL Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                  SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-        if(window == nullptr)
-            std::cout<<"Window could not be created";
-        else{  // Window created.
-            screenSurface = SDL_GetWindowSurface(window);
-            SDL_FillRect(screenSurface, nullptr, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
-            SDL_UpdateWindowSurface(window);
-            SDL_Delay(2000);
-        }
-    }
+    test_screen_data[10][10] = 1;
+    View test_view(test_screen_data, test_keys);
+    test_view.init();
+    test_view.draw_screen_data();
 
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    SDL_Delay(2000);
+    test_view.close();
     return 0;
 }

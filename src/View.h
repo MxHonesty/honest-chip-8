@@ -12,8 +12,24 @@ class View {
     BYTE **screen_data;
     Hardware hardware;
 
+    static const int WIDTH = 64;
+    static const int HEIGHT = 32;
+    const int multiplier = 10;  // in_game_pixel = multiplier * actual_pixel
+
+    //The window we'll be rendering to
+    SDL_Window* Window = nullptr;
+
+    //The surface contained by the window
+    SDL_Surface* ScreenSurface = nullptr;
+
+    //The image we will load and show on the screen
+    SDL_Surface* HelloWorld = nullptr;
+
 public:
-    explicit  View(BYTE *screen[], BYTE *keys);  // Constructor.
+    explicit  View(BYTE screen[][32], BYTE *keys);  // Constructor.
+    bool init();  // Starts up SDL and creates a window. Returns true if window created.
+    bool draw_screen_data();  // Loads image to window.
+    void close();  // SDL CLOSE.
 };
 
 

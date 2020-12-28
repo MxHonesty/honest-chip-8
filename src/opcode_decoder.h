@@ -38,7 +38,7 @@ class opcode_decoder {
     void Opcode8XY6(WORD opcode);  // Stores least significant bit of VX to VF and shifts VX right.
     void Opcode8XY7(WORD opcode);  // Sets VX to VY - VX. VF set to 0 when borrow.
     void Opcode8XYE(WORD opcode);  // Move most significant bit of VX to VF. Shift VX left.
-    void Opcode9XY0(WORD opcode);  // Skip the next instruction if VX doenst equal VY.
+    void Opcode9XY0(WORD opcode);  // Skip the next instruction if VX doesn't equal VY.
     void OpcodeANNN(WORD opcode);  // Sets I to address NNN.
     void OpcodeBNNN(WORD opcode);  // Jump to address NNN + V0.
     void OpcodeCXNN(WORD opcode);  // Sets VX to random number BITWISE_AND NN.
