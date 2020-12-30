@@ -6,8 +6,8 @@
 #include "SDL.h"
 #include <iostream>
 
-View::View(BYTE screen[][HEIGHT], BYTE *keys) {
-    screen_data = reinterpret_cast<BYTE **>(screen);
+View::View(Hardware hardware_drawn, BYTE *keys) {
+    hardware = &hardware_drawn;
     keys_data = keys;
 }
 
@@ -26,6 +26,8 @@ bool View::init() {
         }  // Window Created.
         else{
             ScreenSurface = SDL_GetWindowSurface(Window);
+            SDL_FillRect(ScreenSurface, nullptr, SDL_MapRGB(ScreenSurface->format, 0x90, 0x90, 0x90));
+            SDL_UpdateWindowSurface(Window);
         }
     }
     return success;
@@ -34,21 +36,18 @@ bool View::init() {
 bool View::draw_screen_data() {
     bool success = true;
     SDL_Rect rect;
-
     for(int i = 0; i < WIDTH; i++)
         for(int j = 0; j < HEIGHT; j++){
             rect.x = i * multiplier;
             rect.y = j * multiplier;
             rect.w = multiplier;
             rect.h = multiplier;
-            if(screen_data[i][j] == 1)
+            //std::cout<<hardware->screen_data.get_pixel(i, j)<<" ";  // DEBUG
+            if(hardware->screen_data.get_pixel(i, j) ==  1)
                 SDL_FillRect(ScreenSurface, &rect, SDL_MapRGB(ScreenSurface->format, 255, 255, 255));
-            else if(screen_data[i][j] == 0)
+            else if(hardware->screen_data.get_pixel(i, j) ==  0)
                 SDL_FillRect(ScreenSurface, &rect, SDL_MapRGB(ScreenSurface->format, 0, 0, 0));
         }
-
-
-    SDL_FillRect(ScreenSurface, nullptr, SDL_MapRGB(ScreenSurface->format, 255, 255, 255));
     SDL_UpdateWindowSurface(Window);
     return success;
 }

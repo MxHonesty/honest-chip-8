@@ -94,9 +94,9 @@ void opcode_decoder::OpcodeDXYN(WORD opcode) {
             if(data & mask){
                 int x = x_position + xpixel;
                 int y = y_position + yline;
-                if(hardware->screen_data[x][y] == 1)
+                if(hardware->screen_data.get_pixel(x, y) == 1)
                     hardware->set_register(0xF, 1);  // Collision.
-                hardware->screen_data[x][y] ^= 1;
+                hardware->screen_data.invert_pixel(x, y);
             }
         }
     }

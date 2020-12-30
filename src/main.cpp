@@ -7,17 +7,14 @@ int main(int argc, char *argv[]) {
 
     BYTE test_keys[16] = {0};
 
-    BYTE test_screen_data[64][32] = {0};
-    for(int i = 0; i < 64; i++)
-        for(int j = 0; j < 32; j++)
-            test_screen_data[i][j] = 1;
+    Hardware hd;
 
-    test_screen_data[10][10] = 1;
-    View test_view(test_screen_data, test_keys);
+    hd.screen_data.init();
+    View test_view(hd, test_keys);
     test_view.init();
     test_view.draw_screen_data();
 
     SDL_Delay(2000);
-    test_view.close();
+    //test_view.close();
     return 0;
 }
