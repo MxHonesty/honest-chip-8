@@ -94,9 +94,9 @@ void opcode_decoder::OpcodeDXYN(WORD opcode) {
             if(data & mask){
                 int x = x_position + xpixel;
                 int y = y_position + yline;
-                if(hardware->screen_data.get_pixel(x, y) == 1)
+                if(hardware->screen_data->get_pixel(x, y) == 1)
                     hardware->set_register(0xF, 1);  // Collision.
-                hardware->screen_data.invert_pixel(x, y);
+                hardware->screen_data->invert_pixel(x, y);
             }
         }
     }
@@ -279,7 +279,6 @@ void opcode_decoder::OpcodeFX65(WORD opcode) {
     for(int i = 0; i <= reg_x; i++)
         hardware->set_register(i, hardware->get_memory(i_address + i));
     hardware->set_address_i(i_address + reg_x + 1);
-
 }
 
 void opcode_decoder::OpcodeEX9E(WORD opcode) {

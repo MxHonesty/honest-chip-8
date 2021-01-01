@@ -18,5 +18,9 @@ void graphic::invert_pixel(int pos_x, int pos_y) {
 }
 
 void graphic::init() {
-    memset(data, 0, sizeof(data));  // set registers to 0.
+    memset(data, 0, sizeof(data));  // set screen data to 0.
+}
+
+graphic::graphic() {
+    init();
 }

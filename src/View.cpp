@@ -43,9 +43,9 @@ bool View::draw_screen_data() {
             rect.w = multiplier;
             rect.h = multiplier;
             //std::cout<<hardware->screen_data.get_pixel(i, j)<<" ";  // DEBUG
-            if(hardware->screen_data.get_pixel(i, j) ==  1)
+            if(hardware->screen_data->get_pixel(i, j) ==  1)
                 SDL_FillRect(ScreenSurface, &rect, SDL_MapRGB(ScreenSurface->format, 255, 255, 255));
-            else if(hardware->screen_data.get_pixel(i, j) ==  0)
+            else if(hardware->screen_data->get_pixel(i, j) ==  0)
                 SDL_FillRect(ScreenSurface, &rect, SDL_MapRGB(ScreenSurface->format, 0, 0, 0));
         }
     SDL_UpdateWindowSurface(Window);

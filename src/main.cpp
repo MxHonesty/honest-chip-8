@@ -1,5 +1,6 @@
 #include "tests/test_hardware_emulator.h"
 #include "View.h"
+#include "graphic.h"
 
 int main(int argc, char *argv[]) {
     // Run tests.
@@ -8,13 +9,18 @@ int main(int argc, char *argv[]) {
     BYTE test_keys[16] = {0};
 
     Hardware hd;
+    graphic gfx;
+    hd.screen_data = &gfx;
 
-    hd.screen_data.init();
+
     View test_view(hd, test_keys);
     test_view.init();
     test_view.draw_screen_data();
 
     SDL_Delay(2000);
-    //test_view.close();
+    hd.screen_data->set_pixel(10, 10, 1);
+    test_view.draw_screen_data();
+    SDL_Delay(2000);
+    test_view.close();
     return 0;
 }

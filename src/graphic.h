@@ -5,7 +5,6 @@
 #ifndef SRC_GRAPHIC_H
 #define SRC_GRAPHIC_H
 #include "chip_types.h"
-// TODO DE MODIFICAT UTILIZAREA CLASEI VIEW PENTRU FOLOSIREA GRAPHIC.
 /*
  * Class responsible for managing the visual data.
  */
@@ -14,7 +13,10 @@ struct graphic {
     void set_pixel(int pos_x, int pos_y, BYTE new_value);  // Set the given pixel to new_value.
     void invert_pixel(int pos_x, int pos_y);  // Invert the pixel.
     void init();  // Initializes visual data matrix as 0.
+    graphic();
+
 private:
+    // Constructor.
     BYTE data[64][32];  // 64x32 resolution.
 };
 
