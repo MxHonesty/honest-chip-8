@@ -6,9 +6,8 @@
 #include "SDL.h"
 #include <iostream>
 
-View::View(Hardware hardware_drawn, BYTE *keys) {
+View::View(Hardware hardware_drawn) {
     hardware = &hardware_drawn;
-    keys_data = keys;
 }
 
 bool View::init() {

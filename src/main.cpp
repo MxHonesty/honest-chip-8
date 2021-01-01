@@ -9,11 +9,11 @@ int main(int argc, char *argv[]) {
     BYTE test_keys[16] = {0};
 
     Hardware hd;
-    graphic gfx;
-    hd.screen_data = &gfx;
+    graphic gfx;  // Instantiate graphics class.
+    hd.screen_data = &gfx;  // Pass reference to it to hardware.
 
 
-    View test_view(hd, test_keys);
+    View test_view(hd);
     test_view.init();
     test_view.draw_screen_data();
 

@@ -8,7 +8,6 @@
 #include "hardware_emulator.h"
 
 class View {
-    BYTE *keys_data;
     Hardware *hardware;
 
     static const int WIDTH = 64;
@@ -22,7 +21,7 @@ class View {
     SDL_Surface* ScreenSurface = nullptr;
 
 public:
-    View(Hardware hardware, BYTE *keys);  // Constructor.
+    explicit View(Hardware hardware);  // Constructor.
     bool init();  // Starts up SDL and creates a window. Returns true if window created.
     bool draw_screen_data();  // Loads image to window.
     void close();  // SDL CLOSE.

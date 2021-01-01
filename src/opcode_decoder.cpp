@@ -310,3 +310,19 @@ void opcode_decoder::OpcodeFX0A(WORD opcode) {
 
 }
 
+void opcode_decoder::OpcodeFX07(WORD opcode) {
+    int reg_x = get_x(opcode);
+    hardware->set_register(reg_x, hardware->get_delay_timer());
+}
+
+void opcode_decoder::OpcodeFX15(WORD opcode) {
+    int reg_x = get_x(opcode);
+    hardware->set_delay_timer(hardware->get_register(reg_x));
+}
+
+void opcode_decoder::OpcodeFX18(WORD opcode) {
+    /*
+     * Audio support will be implemented in the future!
+     */
+}
+

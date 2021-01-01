@@ -10,6 +10,7 @@ void Hardware::cpu_reset() {
     address_i = 0;
     program_counter = 0x200;
     memset(registers, 0, sizeof(registers));  // set registers to 0.
+    delay_timer = 0;
     init_font_data();
 
     load_game_into_memory(R"(D:\Projects\C++\honest-chip-8\roms)");
@@ -48,7 +49,7 @@ void Hardware::set_program_counter(WORD new_value) {
 
 WORD Hardware::get_next_opcode() {
     WORD res = game_memory[program_counter];
-    res <<= 8;  // We shift the high part of the word to the left.
+    res <<= 8;  // Shift the high part of the word to the left.
     res |= game_memory[program_counter + 1];  // Append the low part of the word.
     program_counter += 2;
     return res;
@@ -187,4 +188,12 @@ void Hardware::init_font_data() {
 
 bool Hardware::is_key_pressed(BYTE pos) {
     return keys[pos] == 1;
+}
+
+BYTE Hardware::get_delay_timer() const {
+    return delay_timer;
+}
+
+void Hardware::set_delay_timer(BYTE new_delay_value) {
+    delay_timer = new_delay_value;
 }
