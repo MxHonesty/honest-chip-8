@@ -3,3 +3,8 @@
 //
 
 #include "Emulator.h"
+
+Emulator::Emulator() {
+    gfx.init();
+    hardware.screen_data = &gfx;
+}

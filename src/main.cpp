@@ -1,26 +1,23 @@
+#include <iostream>
 #include "tests/test_hardware_emulator.h"
 #include "View.h"
-#include "graphic.h"
+#include "Emulator.h"
 
 int main(int argc, char *argv[]) {
     // Run tests.
     TestHardwareEmulator::run_all_tests();
 
-    BYTE test_keys[16] = {0};
+    Emulator emulator;
+    View view = View(emulator.hardware.screen_data);
+    emulator.view = &view;
 
-    Hardware hd;
-    graphic gfx;  // Instantiate graphics class.
-    hd.screen_data = &gfx;  // Pass reference to it to hardware.
-
-
-    View test_view(hd);
-    test_view.init();
-    test_view.draw_screen_data();
+    emulator.view->init();
+    emulator.view->draw_screen_data();
+    SDL_Delay(2000);
+    emulator.hardware.screen_data->set_pixel(10, 10, 1);
+    emulator.view->draw_screen_data();
 
     SDL_Delay(2000);
-    hd.screen_data->set_pixel(10, 10, 1);
-    test_view.draw_screen_data();
-    SDL_Delay(2000);
-    test_view.close();
+    emulator.view->close();
     return 0;
 }

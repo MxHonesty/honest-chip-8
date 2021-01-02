@@ -5,10 +5,10 @@
 #ifndef SRC_VIEW_H
 #define SRC_VIEW_H
 #include "SDL.h"
-#include "hardware_emulator.h"
+#include "graphic.h"
 
 class View {
-    Hardware *hardware;
+    graphic *gfx;
 
     static const int WIDTH = 64;
     static const int HEIGHT = 32;
@@ -21,7 +21,7 @@ class View {
     SDL_Surface* ScreenSurface = nullptr;
 
 public:
-    explicit View(Hardware hardware);  // Constructor.
+    explicit View(graphic *gfx);  // Constructor.
     bool init();  // Starts up SDL and creates a window. Returns true if window created.
     bool draw_screen_data();  // Loads image to window.
     void close();  // SDL CLOSE.

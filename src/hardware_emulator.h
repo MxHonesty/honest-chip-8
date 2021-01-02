@@ -18,7 +18,7 @@ class Hardware {
     void init_font_data();  // Initializes font data.
 public:
     std::vector<WORD> stack;  // 16-bit stack.
-    BYTE keys[16] = {0};  // 1 - pressed, 2 - not pressed.
+    BYTE keys[16] = {0};  // 1 - pressed, 0 - not pressed.
     graphic *screen_data;
 
     void cpu_reset();  // Reset the cpu.
