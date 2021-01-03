@@ -46,8 +46,8 @@ void opcode_decoder::Opcode00EE(WORD opcode) {
     hardware->stack.pop_back();
 }
 
-opcode_decoder::opcode_decoder(Hardware he) {
-    hardware = &he;
+opcode_decoder::opcode_decoder(Hardware *he) {
+    hardware = he;
 }
 
 void opcode_decoder::Opcode2NNN(WORD opcode) {
@@ -300,14 +300,13 @@ void opcode_decoder::OpcodeEXA1(WORD opcode) {
 void opcode_decoder::OpcodeFX0A(WORD opcode) {
     int reg_x = get_x(opcode);
     bool key_pressed = false;
-    while(not key_pressed){
-        for(int i = 0; i < 16; i++)  // Loop through all the keys and check if pressed.
-            if(hardware->is_key_pressed(i)) {
-                hardware->set_register(reg_x, i);
-                key_pressed = true;
-            }
+    for(int i = 0; i < 16; i++)  // Loop through all the keys and check if pressed.
+        if(hardware->is_key_pressed(i)) {
+            hardware->set_register(reg_x, i);
+            key_pressed = true;
     }
-
+    if(not key_pressed)
+        hardware->set_program_counter(hardware->get_program_counter() - 2);  // Execute this opcode again.
 }
 
 void opcode_decoder::OpcodeFX07(WORD opcode) {
@@ -324,5 +323,9 @@ void opcode_decoder::OpcodeFX18(WORD opcode) {
     /*
      * Audio support will be implemented in the future!
      */
+}
+
+opcode_decoder::opcode_decoder() {
+    hardware = nullptr;
 }
 

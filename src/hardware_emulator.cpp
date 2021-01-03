@@ -12,8 +12,6 @@ void Hardware::cpu_reset() {
     memset(registers, 0, sizeof(registers));  // set registers to 0.
     delay_timer = 0;
     init_font_data();
-
-    load_game_into_memory(R"(D:\Projects\C++\honest-chip-8\roms)");
 }
 
 void Hardware::load_game_into_memory(const char* filename) {
@@ -196,4 +194,13 @@ BYTE Hardware::get_delay_timer() const {
 
 void Hardware::set_delay_timer(BYTE new_delay_value) {
     delay_timer = new_delay_value;
+}
+
+void Hardware::tick_timers() {
+    if(delay_timer > 0)
+        delay_timer--;
+}
+
+Hardware::Hardware() {
+    cpu_reset();
 }

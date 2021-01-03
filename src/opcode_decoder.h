@@ -4,6 +4,8 @@
 
 #ifndef SRC_OPCODE_DECODER_H
 #define SRC_OPCODE_DECODER_H
+
+#include <iostream>
 #include "hardware_emulator.h"
 
 /*
@@ -57,7 +59,8 @@ class opcode_decoder {
     void OpcodeFX65(WORD opcode);
 
 public:
-    explicit opcode_decoder(Hardware he);  // Constructor.
+    explicit opcode_decoder(Hardware *he);  // Constructor.
+    opcode_decoder();  // Default constructor.
     void decode_opcode(WORD opcode);  // Translates the opcode into a hardware function.
 };
 
