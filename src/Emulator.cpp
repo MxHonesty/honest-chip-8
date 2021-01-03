@@ -21,14 +21,14 @@ void Emulator::execute_next_opcode() {
 
 void Emulator::main_loop(){
     int opcodes_per_frame = opcodes_per_second / 60;
-    while (running) {
-        view->draw_screen_data();  // Draw the screen data every frame.
+    while (running) {  // Each loop is executed once a frame.
         // TODO update input
         for(int i = 0; i < opcodes_per_frame; i++){  // Execute opcodes_per_frame opcodes every frame.
             execute_next_opcode();
         }
-
-
+        
+        view->draw_screen_data();  // Draw the screen data every frame.
+        hardware.tick_timers();   // Tick timers once every frame.
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
 }

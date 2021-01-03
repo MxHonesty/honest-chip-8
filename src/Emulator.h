@@ -21,7 +21,6 @@ public:
     void load_game();  // Loads the game into memory.
     void main_loop();  // The main game loop.
     void init();  // Init the emulator.
-
 };
 
 
