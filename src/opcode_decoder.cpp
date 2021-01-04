@@ -15,6 +15,49 @@ void opcode_decoder::decode_opcode(WORD opcode) {
                 case 0x000E: Opcode00EE(opcode); break;  // return subroutine.
             }
         }
+        case 0x2000: Opcode2NNN(opcode); break;
+        case 0x3000: Opcode3XNN(opcode); break;
+        case 0x4000: Opcode4XNN(opcode); break;
+        case 0x5000: Opcode5XY0(opcode); break;
+        case 0x6000: Opcode6XNN(opcode); break;
+        case 0x7000: Opcode7XNN(opcode); break;
+        case 0x8000: {
+            switch(opcode & 0x000F){
+                case 0x0000: Opcode8XY0(opcode); break;
+                case 0x0001: Opcode8XY1(opcode); break;
+                case 0x0002: Opcode8XY2(opcode); break;
+                case 0x0003: Opcode8XY3(opcode); break;
+                case 0x0004: Opcode8XY4(opcode); break;
+                case 0x0005: Opcode8XY5(opcode); break;
+                case 0x0006: Opcode8XY6(opcode); break;
+                case 0x0007: Opcode8XY7(opcode); break;
+                case 0x000E: Opcode8XYE(opcode); break;
+            }
+        }
+        case 0x9000: Opcode9XY0(opcode); break;
+        case 0xA000: OpcodeANNN(opcode); break;
+        case 0xB000: OpcodeBNNN(opcode); break;
+        case 0xC000: OpcodeCXNN(opcode); break;
+        case 0xD000: OpcodeDXYN(opcode); break;
+        case 0xE000: {
+            switch(opcode & 0x000F){
+                case 0x000E: OpcodeEX9E(opcode); break;
+                case 0x0001: OpcodeEXA1(opcode); break;
+            }
+        }
+        case 0xF000: {
+            switch(opcode & 0x00FF){
+                case 0x0007: OpcodeFX07(opcode); break;
+                case 0x000A: OpcodeFX0A(opcode); break;
+                case 0x0015: OpcodeFX15(opcode); break;
+                case 0x0018: OpcodeFX18(opcode); break;
+                case 0x001E: OpcodeFX1E(opcode); break;
+                case 0x0029: OpcodeFX29(opcode); break;
+                case 0x0033: OpcodeFX33(opcode); break;
+                case 0x0055: OpcodeFX55(opcode); break;
+                case 0x0065: OpcodeFX65(opcode); break;
+            }
+        }
         break;
         default: break;  // yet to be handled.
     }

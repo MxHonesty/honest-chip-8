@@ -26,7 +26,6 @@ void Emulator::main_loop(){
         for(int i = 0; i < opcodes_per_frame; i++){  // Execute opcodes_per_frame opcodes every frame.
             execute_next_opcode();
         }
-        
         view->draw_screen_data();  // Draw the screen data every frame.
         hardware.tick_timers();   // Tick timers once every frame.
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
