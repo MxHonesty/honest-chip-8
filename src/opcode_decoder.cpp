@@ -79,7 +79,7 @@ void opcode_decoder::Opcode1NNN(WORD opcode) {
 }
 
 void opcode_decoder::Opcode00E0(WORD opcode) {
-    hardware->screen_data->init()
+    hardware->screen_data->init();
 }
 
 void opcode_decoder::Opcode00EE(WORD opcode) {
