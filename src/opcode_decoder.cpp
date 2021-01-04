@@ -58,7 +58,6 @@ void opcode_decoder::decode_opcode(WORD opcode) {
                 case 0x0065: OpcodeFX65(opcode); break;
             }
         }
-        break;
         default: break;  // yet to be handled.
     }
 }
@@ -80,7 +79,7 @@ void opcode_decoder::Opcode1NNN(WORD opcode) {
 }
 
 void opcode_decoder::Opcode00E0(WORD opcode) {
-    // TODO public set screen_data to 0 method for hardware.
+    hardware->screen_data->init()
 }
 
 void opcode_decoder::Opcode00EE(WORD opcode) {
