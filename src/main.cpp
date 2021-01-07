@@ -12,10 +12,9 @@ int main(int argc, char *argv[]) {
     emulator.view = &view;
     emulator.view->init();
 
-    // TODO INPUT HANDLING.
     emulator.init();
 
-    SDL_Delay(500);
+    SDL_Delay(300);
     emulator.view->close();
     return 0;
 }

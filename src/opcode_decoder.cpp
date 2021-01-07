@@ -7,58 +7,59 @@
 
 
 void opcode_decoder::decode_opcode(WORD opcode) {
+    //printf("%x ", opcode);  // DEBUG PRINT OPCODE
     switch(opcode & 0xF000){
-        case 0x1000: Opcode1NNN(opcode); break;  // jump opcode.
-        case 0x0000: {
-            switch(opcode & 0x000F){
-                case 0x0000: Opcode00E0(opcode); break;  // clear screen.
-                case 0x000E: Opcode00EE(opcode); break;  // return subroutine.
+        case 0xF000: {
+            switch(opcode & 0x00FF){
+                case 0x0065: OpcodeFX65(opcode); break;
+                case 0x0055: OpcodeFX55(opcode); break;
+                case 0x0033: OpcodeFX33(opcode); break;
+                case 0x0029: OpcodeFX29(opcode); break;
+                case 0x001E: OpcodeFX1E(opcode); break;
+                case 0x0018: OpcodeFX18(opcode); break;
+                case 0x0015: OpcodeFX15(opcode); break;
+                case 0x000A: OpcodeFX0A(opcode); break;
+                case 0x0007: OpcodeFX07(opcode); break;
             }
-        }
-        case 0x2000: Opcode2NNN(opcode); break;
-        case 0x3000: Opcode3XNN(opcode); break;
-        case 0x4000: Opcode4XNN(opcode); break;
-        case 0x5000: Opcode5XY0(opcode); break;
-        case 0x6000: Opcode6XNN(opcode); break;
-        case 0x7000: Opcode7XNN(opcode); break;
-        case 0x8000: {
-            switch(opcode & 0x000F){
-                case 0x0000: Opcode8XY0(opcode); break;
-                case 0x0001: Opcode8XY1(opcode); break;
-                case 0x0002: Opcode8XY2(opcode); break;
-                case 0x0003: Opcode8XY3(opcode); break;
-                case 0x0004: Opcode8XY4(opcode); break;
-                case 0x0005: Opcode8XY5(opcode); break;
-                case 0x0006: Opcode8XY6(opcode); break;
-                case 0x0007: Opcode8XY7(opcode); break;
-                case 0x000E: Opcode8XYE(opcode); break;
-            }
-        }
-        case 0x9000: Opcode9XY0(opcode); break;
-        case 0xA000: OpcodeANNN(opcode); break;
-        case 0xB000: OpcodeBNNN(opcode); break;
-        case 0xC000: OpcodeCXNN(opcode); break;
-        case 0xD000: OpcodeDXYN(opcode); break;
+        } break;
         case 0xE000: {
             switch(opcode & 0x000F){
                 case 0x000E: OpcodeEX9E(opcode); break;
                 case 0x0001: OpcodeEXA1(opcode); break;
             }
-        }
-        case 0xF000: {
-            switch(opcode & 0x00FF){
-                case 0x0007: OpcodeFX07(opcode); break;
-                case 0x000A: OpcodeFX0A(opcode); break;
-                case 0x0015: OpcodeFX15(opcode); break;
-                case 0x0018: OpcodeFX18(opcode); break;
-                case 0x001E: OpcodeFX1E(opcode); break;
-                case 0x0029: OpcodeFX29(opcode); break;
-                case 0x0033: OpcodeFX33(opcode); break;
-                case 0x0055: OpcodeFX55(opcode); break;
-                case 0x0065: OpcodeFX65(opcode); break;
+        } break;
+        case 0xD000: OpcodeDXYN(opcode); break;
+        case 0xC000: OpcodeCXNN(opcode); break;
+        case 0xB000: OpcodeBNNN(opcode); break;
+        case 0xA000: OpcodeANNN(opcode); break;
+        case 0x9000: Opcode9XY0(opcode); break;
+        case 0x8000: {
+            switch(opcode & 0x000F){
+                case 0x000E: Opcode8XYE(opcode); break;
+                case 0x0007: Opcode8XY7(opcode); break;
+                case 0x0006: Opcode8XY6(opcode); break;
+                case 0x0005: Opcode8XY5(opcode); break;
+                case 0x0004: Opcode8XY4(opcode); break;
+                case 0x0003: Opcode8XY3(opcode); break;
+                case 0x0002: Opcode8XY2(opcode); break;
+                case 0x0001: Opcode8XY1(opcode); break;
+                case 0x0000: Opcode8XY0(opcode); break;
             }
-        }
-        default: break;  // yet to be handled.
+        } break;
+        case 0x7000: Opcode7XNN(opcode); break;
+        case 0x6000: Opcode6XNN(opcode); break;
+        case 0x5000: Opcode5XY0(opcode); break;
+        case 0x4000: Opcode4XNN(opcode); break;
+        case 0x3000: Opcode3XNN(opcode); break;
+        case 0x2000: Opcode2NNN(opcode); break;
+        case 0x1000: Opcode1NNN(opcode); break;  // jump opcode.
+        case 0x0000: {
+            switch(opcode & 0x000F){
+                case 0x000E: Opcode00EE(opcode); break;  // return subroutine.
+                case 0x0000: Opcode00E0(opcode); break;  // clear screen.
+            }
+        } break;
+        default: std::cout<<"UNSUPPORTED OPCODE"; break;
     }
 }
 
@@ -146,7 +147,7 @@ void opcode_decoder::OpcodeDXYN(WORD opcode) {
 
 void opcode_decoder::OpcodeFX33(WORD opcode) {
     int reg_x = get_x(opcode);
-    int value = hardware->get_register(reg_x);
+    BYTE value = hardware->get_register(reg_x);
 
     BYTE hundreds = value / 100;
     BYTE tens = (value / 10) % 10;
@@ -165,12 +166,11 @@ void opcode_decoder::OpcodeANNN(WORD opcode) {
 
 void opcode_decoder::OpcodeBNNN(WORD opcode) {
     WORD jump_address = opcode & 0x0FFF;
-    jump_address += hardware->get_register(0);
-    hardware->set_program_counter(jump_address);
+    hardware->set_program_counter(jump_address + hardware->get_register(0));
 }
 
 void opcode_decoder::Opcode3XNN(WORD opcode) {
-    WORD value = opcode & 0x00FF;
+    BYTE value = opcode & 0x00FF;
     int reg_x = get_x(opcode);
     WORD current_position = hardware->get_program_counter();
     if(value == hardware->get_register(reg_x))
@@ -178,7 +178,7 @@ void opcode_decoder::Opcode3XNN(WORD opcode) {
 }
 
 void opcode_decoder::Opcode4XNN(WORD opcode) {
-    WORD value = opcode & 0x00FF;
+    BYTE value = opcode & 0x00FF;
     int reg_x = get_x(opcode);
     WORD current_position = hardware->get_program_counter();
     if(value == hardware->get_register(reg_x))
@@ -192,10 +192,10 @@ void opcode_decoder::Opcode6XNN(WORD opcode) {
 }
 
 void opcode_decoder::Opcode7XNN(WORD opcode) {
-    WORD value = opcode & 0x00FF;
+    BYTE value = opcode & 0x00FF;
     int reg_x = get_x(opcode);
-    WORD value_from_reg = hardware->get_register(reg_x);
-    WORD new_value = value_from_reg + value;
+    BYTE value_from_reg = hardware->get_register(reg_x);
+    BYTE new_value = value_from_reg + value;
     hardware->set_register(reg_x, new_value);
 }
 
@@ -238,7 +238,7 @@ void opcode_decoder::Opcode8XY4(WORD opcode) {
     BYTE y_value = hardware->get_register(reg_y);
 
     hardware->set_register(0xF, 0);
-    if(x_value + y_value > 255)  // If they add up higher than 8-bit int limit.
+    if((int)x_value + (int)y_value > 255)  // If they add up higher than 8-bit int limit.
         hardware->set_register(0xF, 1);
     BYTE new_value = x_value + y_value;
     hardware->set_register(reg_x, new_value);
@@ -247,7 +247,7 @@ void opcode_decoder::Opcode8XY4(WORD opcode) {
 void opcode_decoder::Opcode8XY6(WORD opcode) {
     int reg_x = get_x(opcode);
     BYTE x_value = hardware->get_register(reg_x);
-    hardware->set_register(0xF, x_value & 0x01);
+    hardware->set_register(0xF, x_value & 1);
     x_value >>= 1;
     hardware->set_register(reg_x, x_value);
 }
@@ -258,9 +258,9 @@ void opcode_decoder::Opcode8XY7(WORD opcode) {
     BYTE x_value = hardware->get_register(reg_x);
     BYTE y_value = hardware->get_register(reg_y);
 
-    hardware->set_register(0xF, 0);
+    hardware->set_register(0xF, 1);
     if(x_value > y_value)
-        hardware->set_register(0xF, 1);
+        hardware->set_register(0xF, 0);
 
     BYTE new_value = y_value - x_value;
     hardware->set_register(reg_x, new_value);
@@ -286,6 +286,7 @@ void opcode_decoder::Opcode9XY0(WORD opcode) {
 }
 
 void opcode_decoder::OpcodeCXNN(WORD opcode) {
+    std::cout<<"APELAT ";
     int reg_x = get_x(opcode);
     BYTE value = opcode & 0x00FF;
     BYTE random_value = rand()%256;
@@ -294,17 +295,15 @@ void opcode_decoder::OpcodeCXNN(WORD opcode) {
 
 void opcode_decoder::OpcodeFX1E(WORD opcode) {
     int reg_x = get_x(opcode);
-    BYTE x_value = hardware->get_register(reg_x);
+    WORD x_value = hardware->get_register(reg_x);
     WORD i_value = hardware->get_address_i();
-    i_value += x_value;
-    hardware->set_address_i(i_value);
+    hardware->set_address_i(i_value + x_value);
 }
 
 void opcode_decoder::OpcodeFX29(WORD opcode) {
     int reg_x = get_x(opcode); // Font values start at 0. Each character is 5 bytes long.
     WORD position = hardware->get_register(reg_x);
-    position *= 5;
-    hardware->set_address_i(position);
+    hardware->set_address_i(position * 5);
 }
 
 void opcode_decoder::OpcodeFX55(WORD opcode) {
