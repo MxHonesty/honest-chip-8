@@ -4,6 +4,7 @@
 
 #include <cstring>
 #include <cstdio>
+#include <iostream>
 #include "hardware_emulator.h"
 
 void Hardware::cpu_reset() {
@@ -58,8 +59,7 @@ BYTE Hardware::get_register(int pos) {
 }
 
 void Hardware::set_register(int pos, BYTE value) {
-    if(pos < 16 && pos >= 0)
-        registers[pos] = value;
+    registers[pos] = value;
 }
 
 BYTE Hardware::get_memory(int pos) {
@@ -185,7 +185,7 @@ void Hardware::init_font_data() {
 }
 
 bool Hardware::is_key_pressed(BYTE pos) {
-    return keys[pos] == 1;
+    return (keys[pos] == 1);
 }
 
 BYTE Hardware::get_delay_timer() const {

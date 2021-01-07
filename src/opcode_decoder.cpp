@@ -181,7 +181,7 @@ void opcode_decoder::Opcode4XNN(WORD opcode) {
     BYTE value = opcode & 0x00FF;
     int reg_x = get_x(opcode);
     WORD current_position = hardware->get_program_counter();
-    if(value == hardware->get_register(reg_x))
+    if(value != hardware->get_register(reg_x))
         hardware->set_program_counter(current_position + 2);
 }
 
@@ -295,7 +295,7 @@ void opcode_decoder::OpcodeCXNN(WORD opcode) {
 
 void opcode_decoder::OpcodeFX1E(WORD opcode) {
     int reg_x = get_x(opcode);
-    WORD x_value = hardware->get_register(reg_x);
+    BYTE x_value = hardware->get_register(reg_x);
     WORD i_value = hardware->get_address_i();
     hardware->set_address_i(i_value + x_value);
 }

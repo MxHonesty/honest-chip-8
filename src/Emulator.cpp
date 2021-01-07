@@ -33,7 +33,7 @@ void Emulator::main_loop(){
 }
 
 void Emulator::load_game() {
-    hardware.load_game_into_memory(R"(D:\Projects\C++\honest-chip-8\roms\Space Invaders [David Winter].ch8)");  // Add the filename HERE.
+    hardware.load_game_into_memory(R"(D:\Projects\C++\honest-chip-8\roms\Stars.ch8)");  // Add the filename HERE.
 }
 
 void Emulator::init() {
