@@ -21,8 +21,8 @@ void Emulator::execute_next_opcode() {
 
 void Emulator::main_loop(){
     int opcodes_per_frame = opcodes_per_second / 60;
-    while (running) {  // Each loop is executed once a frame.
-        // TODO update input
+    while (not view->quit) {  // Each loop is executed once a frame.
+        view->handle_events();
         for(int i = 0; i < opcodes_per_frame; i++){  // Execute opcodes_per_frame opcodes every frame.
             execute_next_opcode();
         }
@@ -33,7 +33,7 @@ void Emulator::main_loop(){
 }
 
 void Emulator::load_game() {
-    hardware.load_game_into_memory("");  // Add the filename HERE.
+    hardware.load_game_into_memory(R"(D:\Projects\C++\honest-chip-8\roms\Breakout.ch8)");  // Add the filename HERE.
 }
 
 void Emulator::init() {

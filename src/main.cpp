@@ -8,18 +8,14 @@ int main(int argc, char *argv[]) {
     TestHardwareEmulator::run_all_tests();
 
     Emulator emulator;
-    View view = View(emulator.hardware.screen_data);
+    View view = View(emulator.hardware.screen_data, emulator.hardware.keys);
     emulator.view = &view;
     emulator.view->init();
 
+    // TODO INPUT HANDLING.
+    emulator.init();
 
-    emulator.view->draw_screen_data();
-    SDL_Delay(2000);
-
-    emulator.hardware.screen_data->set_pixel(10, 10, 1);
-    emulator.view->draw_screen_data();
-
-    SDL_Delay(2000);
+    SDL_Delay(500);
     emulator.view->close();
     return 0;
 }
