@@ -16,7 +16,7 @@ The emulator is still under development.
 <br>
 <br>
 
-## Referances: <br>
+## References: <br>
 ### About the Chip-8: <br>
 
 * https://massung.github.io/CHIP-8/ <br>
